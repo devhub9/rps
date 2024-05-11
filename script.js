@@ -1,87 +1,54 @@
-
-console.log ("Hello Everyone")
-
-// computer Choice
-
-
-function getComputerChoice(){
-    let choice = Math.random();
-
-    if( choice <=0.3){
-        return ('r')
-    }
-    else if (choice<=0.6){
-        return('p')
-    }
-    else{
-        return('s')
-    }
-};
-console.log(getComputerChoice());
-
-
-//Human Choice
-
-let dat=prompt(" Please choose rock, paper or scissor");
-let enter= dat.toLocaleLowerCase();
-console.log(enter);
-
-function getHumanChoice(){
-    
-    if(enter =='rock'){
-        return ('r')
-    }
-    else if (enter=='paper'){
-        return('p')
-    }
-    else if (enter=='scissor'){
-        return('s')
-    }
-    else{
-        return( 'Invalid Choice');
+// Function to get the computer's choice
+function getComputerChoice() {
+    const random = Math.random();
+    if (random < 0.33) {
+        return 'rock';
+    } else if (random < 0.66) {
+        return 'paper';
+    } else {
+        return 'scissors';
     }
 }
-console.log(getHumanChoice(enter));
 
-
-//Play Round
-
-
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
-
-
-    function playRound(humanChoice, computerChoice) {
-        if (humanChoice == 'r' && computerChoice == 'p') {
-            return 'You Lost';
-        } else if (humanChoice == 'r' && computerChoice == 's') {
-            return 'You Won';
-        } else if (humanChoice == 'p' && computerChoice == 's') {
-            return 'You Lost';
-        } else if (humanChoice == 'p' && computerChoice == 'r') {
-            return 'You Won';
-        } else if (humanChoice == 's' && computerChoice == 'r') {
-            return 'You Lost';
-        } else if (humanChoice == 's' && computerChoice == 'p') {
-            return 'You Won';
-        }
-        else if(humanChoice==computerChoice){
-            return 'Draw';
-        } else {
-            return 'Sommething went wrong';
-        }
+// Function to get the human's choice
+function getHumanChoice() {
+    let userInput = prompt("Pick Rock, Paper, or Scissors").toLowerCase();
+    while (userInput !== 'rock' && userInput !== 'paper' && userInput !== 'scissors') {
+        console.log("Invalid input. Please pick Rock, Paper, or Scissors.");
+        userInput = prompt("Pick Rock, Paper, or Scissors").toLowerCase();
     }
-console.log(playRound(humanSelection, computerSelection));
-alert(playRound(humanSelection, computerSelection));
-
-
-// Scoring game
-
-let gameResult = playRound(humanSelection, computerSelection);
-let humanScore=0;
-let computerScore=0;
-
-
-if (gameResult=='You Won'){
-    localStorage.setItem()
+    return userInput;
 }
+
+// Function to play a single round
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) {
+        console.log("It's a draw!");
+    } else if (
+        (humanChoice === 'rock' && computerChoice === 'scissors') ||
+        (humanChoice === 'paper' && computerChoice === 'rock') ||
+        (humanChoice === 'scissors' && computerChoice === 'paper')
+    ) {
+        console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+        humanScore++;
+    } else {
+        console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+        computerScore++;
+    }
+}
+
+// Function to play the entire game
+function playGame() {
+    for (let i = 0; i < 5; i++) {
+        const humanChoice = getHumanChoice();
+        const computerChoice = getComputerChoice();
+        playRound(humanChoice, computerChoice);
+    }
+    console.log(`Final Score: You - ${humanScore}, Computer - ${computerScore}`);
+}
+
+let humanScore = 0;
+let computerScore = 0;
+
+// Start the game
+playGame();
